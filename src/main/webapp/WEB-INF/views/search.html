@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Kết quả tìm kiếm</title>
+  <style>
+    .pagination {
+      margin-top: 20px;
+      text-align: center;
+    }
+    .pagination a {
+      margin: 0 5px;
+      text-decoration: none;
+      padding: 5px 10px;
+      border: 1px solid #ccc;
+    }
+    .pagination a.active {
+      background-color: #007bff;
+      color: white;
+    }
+  </style>
+</head>
+<body>
+<h1>Giao dien moi cho ket qua tim kiem</h1>
+
+<!-- Form tìm kiếm -->
+<form th:action="@{/cuisine/search}" method="get">
+  <label>
+    <input type="text" name="search" placeholder="Nhap mon can tim kiem..." th:value="${search}" required>
+  </label>
+  <input type="hidden" name="size" th:value="${size}"/>
+  <input type="hidden" name="page" th:value="0"/>
+  <button type="submit">Tìm kiếm</button>
+</form>
+
+<br><br>
+<table border="1px">
+  <tr>
+    <th>Name</th>
+    <th>Description</th>
+    <th>Category</th>
+    <th>Image</th>
+    <th>Edit</th>
+    <th>Delete</th>
+  </tr>
+  <tr th:each="a : ${cuisines}">
+    <td th:text="${a.name}"></td>
+    <td th:text="${a.description}"></td>
+    <td th:text="${a.category}"></td>
+    <td th:text="${a.image}"></td>
+    <td>
+      <a th:href="@{/cuisines/edit(id=${a.id})}">Edit</a>
+    </td>
+    <td>
+      <a th:href="@{/cuisines/delete(id=${a.id})}">Delete</a>
+    </td>
+  </tr>
+  <tr th:if="${#lists.isEmpty(cuisines)}">
+    <td colspan="6">Không tìm thấy món ăn nào</td>
+  </tr>
+</table>
+
+<!-- Phân trang -->
+<div class="pagination" th:if="${totalPages > 1}">
+  <a th:href="@{/cuisine/search(page=${currentPage - 1}, size=${size}, search=${search})}"
+     th:if="${currentPage > 0}">Previous</a>
+
+  <a th:each="pageNum : ${pageNumbers}"
+     th:href="@{/cuisine/search(page=${pageNum}, size=${size}, search=${search})}"
+     th:classappend="${pageNum == currentPage ? 'active' : ''}"
+     th:text="${pageNum + 1}"></a>
+
+  <a th:href="@{/cuisine/search(page=${currentPage + 1}, size=${size}, search=${search})}"
+     th:if="${currentPage < totalPages - 1}">Next</a>
+</div>
+
+<a href="/cuisines/list">Quay lại danh sách</a>
+</body>
+</html>

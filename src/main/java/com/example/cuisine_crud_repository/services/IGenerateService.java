@@ -14,4 +14,7 @@ public interface IGenerateService<T> {
     long count();
     Page<T> findAll(Pageable pageable);
     Page<T> findByNameContaining(String name, Pageable pageable);
+    Page<T> findAllSortedAsc(Pageable pageable);
+    Page<T> findAllSortedDesc(Pageable pageable);
+    Page<T> findAllRandom(Pageable pageable);
 }

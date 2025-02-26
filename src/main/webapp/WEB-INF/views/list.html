@@ -4,17 +4,17 @@
     <meta charset="UTF-8">
     <title>Danh sách món ăn</title>
     <style>
-        .pagination {
+        .pagination, #sortForm {
             margin-top: 20px;
             text-align: center;
         }
-        .pagination a {
+        .pagination a, .sorting a {
             margin: 0 5px;
             text-decoration: none;
             padding: 5px 10px;
             border: 1px solid #ccc;
         }
-        .pagination a.active {
+        .pagination a.active, .sorting a.active {
             background-color: #007bff;
             color: white;
         }
@@ -23,10 +23,27 @@
 <body>
 <h1>Hiển thị danh sách</h1>
 
-<!-- Form tìm kiếm -->
-<form th:action="@{/cuisines/list}" method="get">
-    <input type="text" name="search" placeholder="Nhập món cần tìm..." th:value="${search}" required>
-    <button type="submit">Tìm kiếm</button>
+<form th:action="@{/cuisine/search}" method="get">
+    <label>
+        <input type="text" name="search" placeholder="Nhập món cần tìm kiếm..." required>
+    </label>
+    <input type="hidden" name="size" th:value="${size ?: 5}"/>
+    <input type="hidden" name="page" th:value="0"/>
+    <button type="submit">Tim Kiem</button>
+</form>
+
+<p>Tong so mon an la : <span th:text="${totalItems}"></span></p>
+
+
+<form th:action="@{/cuisine/list}" method="get" id="sortForm">
+    <label for="sort">Sap xep theo : </label>
+    <select name="sort" id="sort" onchange="this.form.submit()">
+        <option value="asc" th:selected="${sort == 'asc'}">A-Z</option>
+        <option value="desc" th:selected="${sort == 'desc'}">Z-A</option>
+        <option value="random" th:selected="${sort == 'random'}">Ngau Nhien</option>
+    </select>
+    <input type="hidden" name="page" value="0"/>
+    <input type="hidden" name="size" th:value="${size ?: 5}"/>
 </form>
 
 <br><br>

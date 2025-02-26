@@ -67,6 +67,20 @@ public class CuisineService implements ICuisineService {
         return cuisineRepository.findByNameContaining(name,pageable);
     }
 
+    @Override
+    public Page<Cuisine> findAllSortedAsc(Pageable pageable) {
+        return cuisineRepository.findAllSortedAsc(pageable);
+    }
+
+    @Override
+    public Page<Cuisine> findAllSortedDesc(Pageable pageable) {
+        return cuisineRepository.findAllSortedDesc(pageable);
+    }
+
+    @Override
+    public Page<Cuisine> findAllRandom(Pageable pageable) {
+        return cuisineRepository.findAllRandom(pageable);
+    }
 
 
 }

@@ -3,11 +3,13 @@ package com.example.cuisine_crud_repository.configuration;
 import org.springframework.beans.BeansException;
 import org.springframework.beans.factory.annotation.Configurable;
 import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
 import org.springframework.data.web.config.EnableSpringDataWebSupport;
 import org.springframework.jdbc.datasource.DriverManagerDataSource;
@@ -18,6 +20,7 @@ import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
 import org.springframework.transaction.PlatformTransactionManager;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
 import org.springframework.web.servlet.config.annotation.EnableWebMvc;
+import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import org.thymeleaf.spring5.SpringTemplateEngine;
 import org.thymeleaf.spring5.templateresolver.SpringResourceTemplateResolver;
@@ -34,6 +37,7 @@ import java.util.Properties;
 @EnableTransactionManagement
 @ComponentScan(basePackages = "com.example.cuisine_crud_repository")
 @EnableJpaRepositories("com.example.cuisine_crud_repository.repository")
+@PropertySource("classpath:upload_file.properties")
 @EnableSpringDataWebSupport
 public class AppConfiguration implements WebMvcConfigurer, ApplicationContextAware {
 
@@ -111,6 +115,16 @@ public class AppConfiguration implements WebMvcConfigurer, ApplicationContextAwa
         properties.setProperty("hibernate.hbm2ddl.auto", "update");
         properties.setProperty("hibernate.dialect", "org.hibernate.dialect.MySQL8Dialect");
         return properties;
+    }
+
+    @Value("${file_upload}")
+    private String upload;
+
+    @Override
+    public void addResourceHandlers(ResourceHandlerRegistry registry) {
+        registry.addResourceHandler("/i/**")
+                .addResourceLocations("file:" + upload);
+        System.out.println(upload);
     }
 
 }
