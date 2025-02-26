@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Su ly Create</h1>
+<form th:action="@{/cuisine/save}" th:method="post" th:object="${cuisine}" novalidate="novalidate" >
+    Name <input th:field="*{name}" placeholder="nhap name">
+    Description <input th:field="*{description}" placeholder="nhap name">
+    Category <input th:field="*{category}" placeholder="nhap name">
+    Image <input th:field="*{image}" placeholder="nhap name">
+    <button type="submit">Save</button>
+</form>
+</body>
+</html>

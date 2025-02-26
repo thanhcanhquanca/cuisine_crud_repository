@@ -1,0 +1,170 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Danh sách món ăn</title>
+    <style>
+        .pagination {
+            margin-top: 20px;
+            text-align: center;
+        }
+        .pagination a {
+            margin: 0 5px;
+            text-decoration: none;
+            padding: 5px 10px;
+            border: 1px solid #ccc;
+        }
+        .pagination a.active {
+            background-color: #007bff;
+            color: white;
+        }
+    </style>
+</head>
+<body>
+<h1>Hiển thị danh sách</h1>
+
+<!-- Form tìm kiếm -->
+<form th:action="@{/cuisines/list}" method="get">
+    <input type="text" name="search" placeholder="Nhập món cần tìm..." th:value="${search}" required>
+    <button type="submit">Tìm kiếm</button>
+</form>
+
+<br><br>
+<table border="1px">
+    <tr>
+        <th>Name</th>
+        <th>Description</th>
+        <th>Category</th>
+        <th>Image</th>
+        <th>Edit</th>
+        <th>Delete</th>
+    </tr>
+    <tr th:each="a : ${cuisines}">
+        <td th:text="${a.name}"></td>
+        <td th:text="${a.description}"></td>
+        <td th:text="${a.category}"></td>
+        <td th:text="${a.image}"></td>
+        <td>
+            <a th:href="@{/cuisines/edit(id=${a.id})}">Edit</a>
+        </td>
+        <td>
+            <a th:href="@{/cuisines/delete(id=${a.id})}">Delete</a>
+        </td>
+    </tr>
+    <tr th:if="${#lists.isEmpty(cuisines)}">
+        <td colspan="6">Không có dữ liệu</td>
+    </tr>
+</table>
+
+<!-- Phân trang -->
+<div class="pagination">
+    <!-- Previous -->
+    <a th:href="@{/cuisine/list(page=${currentPage - 1}, size=${size})}"
+       th:if="${currentPage > 0}">Previous</a>
+
+    <!-- Số trang -->
+    <a th:each="pageNum : ${pageNumbers}"
+       th:href="@{/cuisine/list(page=${pageNum}, size=${size})}"
+       th:classappend="${pageNum == currentPage ? 'active' : ''}"
+       th:text="${pageNum + 1}"></a>
+
+    <!-- Next -->
+    <a th:href="@{/cuisine/list(page=${currentPage + 1}, size=${size})}"
+       th:if="${currentPage < totalPages - 1}">Next</a>
+</div>
+</body>
+</html>
+
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org" lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Danh sách món ăn</title>-->
+<!--    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>-->
+<!--</head>-->
+<!--<body>-->
+<!--<h1>Hiển thị danh sách</h1>-->
+
+<!--&lt;!&ndash; Form tìm kiếm &ndash;&gt;-->
+<!--<form th:action="@{/cuisines/list}" method="get">-->
+<!--    <input type="text" name="search" placeholder="Nhập món cần tìm..." th:value="${search}" required>-->
+<!--    <button type="submit">Tìm kiếm</button>-->
+<!--</form>-->
+
+<!--<br><br>-->
+<!--<table border="1px" id="cuisineTable">-->
+<!--    <thead>-->
+<!--    <tr>-->
+<!--        <th>Name</th>-->
+<!--        <th>Description</th>-->
+<!--        <th>Category</th>-->
+<!--        <th>Image</th>-->
+<!--        <th>Edit</th>-->
+<!--        <th>Delete</th>-->
+<!--    </tr>-->
+<!--    </thead>-->
+<!--    <tbody id="cuisineList">-->
+<!--    <tr th:each="a : ${cuisines}">-->
+<!--        <td th:text="${a.name}"></td>-->
+<!--        <td th:text="${a.description}"></td>-->
+<!--        <td th:text="${a.category}"></td>-->
+<!--        <td th:text="${a.image}"></td>-->
+<!--        <td>-->
+<!--            <a th:href="@{/cuisines/edit(id=${a.id})}">Edit</a>-->
+<!--        </td>-->
+<!--        <td>-->
+<!--            <a th:href="@{/cuisines/delete(id=${a.id})}">Delete</a>-->
+<!--        </td>-->
+<!--    </tr>-->
+<!--    <tr th:if="${#lists.isEmpty(cuisines)}">-->
+<!--        <td colspan="6">Không có dữ liệu</td>-->
+<!--    </tr>-->
+<!--    </tbody>-->
+<!--</table>-->
+
+<!--&lt;!&ndash; Nút Load More &ndash;&gt;-->
+<!--<button id="loadMore" th:attr="data-page=${currentPage + 1}, data-size=${size}"-->
+<!--        th:unless="${currentPage >= totalPages - 1}">Load More</button>-->
+
+<!--<script>-->
+<!--    $(document).ready(function() {-->
+<!--        $("#loadMore").click(function() {-->
+<!--            var page = parseInt($(this).attr("data-page"));-->
+<!--            var size = parseInt($(this).attr("data-size"));-->
+
+<!--            console.log("Loading page: " + page + ", size: " + size); // Debug-->
+
+<!--            $.ajax({-->
+<!--                url: '/cuisine/list?page=' + page + '&size=' + size,-->
+<!--                type: 'GET',-->
+<!--                success: function(data) {-->
+<!--                    console.log("Data received: ", data); // Debug-->
+<!--                    var newRows = $(data).find("#cuisineList").html();-->
+<!--                    if (newRows) {-->
+<!--                        $("#cuisineList").append(newRows);-->
+<!--                        var newTotalPages = $(data).find("#totalPages").val();-->
+<!--                        var newPage = page + 1;-->
+<!--                        $("#loadMore").attr("data-page", newPage);-->
+
+<!--                        if (page >= newTotalPages - 1) {-->
+<!--                            $("#loadMore").hide();-->
+<!--                        }-->
+<!--                    } else {-->
+<!--                        console.log("No new rows found");-->
+<!--                    }-->
+<!--                },-->
+<!--                error: function(xhr, status, error) {-->
+<!--                    console.error("Error: " + error); // Debug-->
+<!--                    alert("Error loading more cuisines");-->
+<!--                }-->
+<!--            });-->
+<!--        });-->
+<!--    });-->
+<!--</script>-->
+
+<!--&lt;!&ndash; Hidden fields để truyền thông tin phân trang &ndash;&gt;-->
+<!--<input type="hidden" id="totalPages" th:value="${totalPages}"/>-->
+<!--<input type="hidden" id="currentPage" th:value="${currentPage}"/>-->
+<!--<input type="hidden" id="size" th:value="${size}"/>-->
+<!--</body>-->
+<!--</html>-->

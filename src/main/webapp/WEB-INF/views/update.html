@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Giao dien chinh sua mon an</h1>
+<form th:action="@{/cuisine/update(id=${cuisine.id})}" th:object="${cuisine}" method="post" novalidate="novalidate">
+    <input type="hidden" th:field="*{id}" />
+    <label for="name">Name:</label>
+    <input type="text" id="name" th:field="*{name}" placeholder="Nhập tên món ăn" required /><br/>
+
+    <label for="description">Description:</label>
+    <input type="text" id="description" th:field="*{description}" placeholder="Nhập mô tả" /><br/>
+
+    <label for="category">Category:</label>
+    <input type="text" id="category" th:field="*{category}" placeholder="Nhập danh mục" /><br/>
+
+    <label for="image">Image:</label>
+    <input type="text" id="image" th:field="*{image}" placeholder="Nhập URL ảnh" /><br/>
+
+    <button type="submit">Save</button>
+    <a th:href="@{/cuisine/list}">Quay lai</a>
+</form>
+</body>
+</html>
