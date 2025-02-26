@@ -2,9 +2,12 @@ package com.example.cuisine_crud_repository.controller;
 
 import com.example.cuisine_crud_repository.model.Cuisine;
 import com.example.cuisine_crud_repository.services.ICuisineService;
+import com.example.cuisine_crud_repository.utility.PaginationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+
 import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -19,6 +22,7 @@ import java.util.Optional;
 public class CuisineController {
     @Autowired
     private ICuisineService cuisineService;
+    
 
 //    @GetMapping("/list")
 //    public String listCuisines(Model model,
@@ -45,21 +49,17 @@ public class CuisineController {
         model.addAttribute("totalPages", cuisinePage.getTotalPages());
         model.addAttribute("size", size);
         // Thêm danh sách số trang (tùy chọn)
-        model.addAttribute("pageNumbers", getPageNumbers(cuisinePage.getTotalPages(), cuisinePage.getNumber()));
-
-        return "list"; // Đổi "list" thành "cuisine-list" nếu cần
+        model.addAttribute("pageNumbers", PaginationUtils.getPageNumbers(cuisinePage.getTotalPages(), cuisinePage.getNumber()));
+        return "list";
     }
 
-    // Hàm tạo danh sách số trang
-    private List<Integer> getPageNumbers(int totalPages, int currentPage) {
-        List<Integer> pageNumbers = new ArrayList<>();
-        int start = Math.max(0, currentPage - 2); // Hiển thị 2 trang trước
-        int end = Math.min(totalPages - 1, currentPage + 2); // Hiển thị 2 trang sau
-        for (int i = start; i <= end; i++) {
-            pageNumbers.add(i);
-        }
-        return pageNumbers;
-    }
+
+//    @GetMapping("/list")
+//    public String listCustomer(Model model, Pageable pageable) {
+//        Page<Cuisine> cuisines = cuisineService.findAll(pageable);
+//        model.addAttribute("cuisines", cuisines);
+//        return "list";
+//    }
 
     @GetMapping("/create")
     public String showCreate(Model model) {
