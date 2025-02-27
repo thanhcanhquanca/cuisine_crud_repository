@@ -4,7 +4,7 @@ import javax.persistence.*;
 
 @Entity
 @Table(name = "cuisine")
-public class Cuisine {
+public class Cuisine  {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
@@ -12,6 +12,10 @@ public class Cuisine {
     private String description;
     private String image;
     private String category;
+
+    @ManyToOne
+    @JoinColumn(name = "province_id")
+    private Province province;
 
     public Cuisine() {
     }
@@ -62,4 +66,5 @@ public class Cuisine {
     public void setCategory(String category) {
         this.category = category;
     }
+
 }

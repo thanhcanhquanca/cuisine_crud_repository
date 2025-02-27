@@ -4,26 +4,40 @@ import com.example.cuisine_crud_repository.model.Cuisine;
 import com.example.cuisine_crud_repository.services.ICuisineService;
 import com.example.cuisine_crud_repository.utility.PaginationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
+import org.springframework.context.annotation.PropertySource;
 import org.springframework.data.domain.Page;
 
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.util.StringUtils;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Path;
+import java.nio.file.Paths;
+import java.nio.file.StandardCopyOption;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 import java.util.Optional;
 
 @Controller
+@PropertySource("classpath:upload_file.properties")
 @RequestMapping("cuisine")
 public class CuisineController {
     @Autowired
     private ICuisineService cuisineService;
-    
+
+    @Value("${file_upload}")
+    private String UPLOAD_DIR;
 
 //    @GetMapping("/list")
 //    public String listCuisines(Model model,
@@ -107,22 +121,25 @@ public class CuisineController {
     }
 
     @GetMapping("/create")
-    public String showCreate(Model model) {
+    public String showCreate(Model model ) {
         model.addAttribute("cuisine", new Cuisine());
         return "create";
     }
 
     @PostMapping("/save")
-    public String saveCuisine(Cuisine cuisine) {
+    public String saveCuisine(@ModelAttribute("cuisine") Cuisine cuisine ) {
         cuisineService.save(cuisine);
         return "redirect:/cuisine/list";
     }
 
 
+
+
     @GetMapping("/delete/{id}")
-    public String deleteCuisine(@PathVariable long id , RedirectAttributes redirect) {
+    public String delete(@PathVariable Long id,
+                         RedirectAttributes redirect) {
         cuisineService.remove(id);
-        redirect.addFlashAttribute("message", "Delete customer successfully");
+        redirect.addFlashAttribute("message", "Delete cuisine successfully");
         return "redirect:/cuisine/list";
     }
 

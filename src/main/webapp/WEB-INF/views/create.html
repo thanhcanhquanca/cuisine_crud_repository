@@ -2,33 +2,147 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
-    <title>Tạo món ăn mới</title>
-    <style>
-        body { font-family: Arial, sans-serif; margin: 20px; }
-        label { display: block; margin: 10px 0 5px; }
-        input[type="text"], input[type="file"] { width: 100%; max-width: 400px; padding: 8px; margin-bottom: 10px; }
-        button { padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }
-        button:hover { background-color: #0056b3; }
-    </style>
+    <title>Title</title>
 </head>
+<style>
+    /* Reset mặc định và thiết lập font */
+    * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+        font-family: Arial, sans-serif;
+    }
+
+    body {
+        background-color: #f4f4f9;
+        padding: 50px;
+        display: flex;
+        flex-direction: column;
+        align-items: center;
+    }
+
+    h1 {
+        color: #333;
+        margin-bottom: 30px;
+        font-size: 2em;
+        text-align: center;
+    }
+
+    /* Form styling */
+    form {
+        background-color: #fff;
+        padding: 30px;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        width: 100%;
+        max-width: 500px;
+    }
+
+    /* Styling cho mỗi field */
+    .form-group {
+        margin-bottom: 20px;
+    }
+
+    label {
+        display: block;
+        font-weight: bold;
+        color: #555;
+        margin-bottom: 5px;
+    }
+
+    input {
+        width: 100%;
+        padding: 10px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+        font-size: 1em;
+        transition: border-color 0.3 личноs;
+    }
+
+    input:focus {
+        border-color: #007bff;
+        outline: none;
+    }
+
+    /* Styling cho lỗi */
+    .error {
+        color: #e74c3c;
+        font-size: 0.9em;
+        display: block;
+        margin-top: 5px;
+    }
+
+    /* Button styling */
+    button {
+        background-color: #007bff;
+        color: #fff;
+        padding: 12px 20px;
+        border: none;
+        border-radius: 5px;
+        font-size: 1em;
+        cursor: pointer;
+        width: 100%;
+        transition: background-color 0.3s;
+    }
+
+    button:hover {
+        background-color: #0056b3;
+    }
+</style>
 <body>
-<h1>Sử lý Create</h1>
-<form th:action="@{/cuisine/save}" method="post" th:object="${cuisine}" enctype="multipart/form-data" novalidate="novalidate">
-    <label for="name">Name:</label>
-    <input type="text" id="name" name="name" th:field="*{name}" placeholder="Nhập tên món ăn" required>
-
-    <label for="description">Description:</label>
-    <input type="text" id="description" name="description" th:field="*{description}" placeholder="Nhập mô tả">
-
-    <label for="category">Category:</label>
-    <input type="text" id="category" name="category" th:field="*{category}" placeholder="Nhập danh mục">
-
-    <label for="imageFile">Image:</label>
-    <input type="file" id="imageFile" name="imageFile" accept="image/*">
-
-    <button type="submit">Save</button>
+<h1>Su ly Create</h1>
+<form th:action="@{/cuisine/save}" th:method="post" th:object="${cuisine}" novalidate="novalidate" >
+    <div class="form-group">
+        Name <input th:field="*{name}" placeholder="nhap name">
+    </div>
+    <div class="form-group">
+        Description <input th:field="*{description}" placeholder="nhap name">
+    </div>
+    <div class="form-group">
+        Category <input th:field="*{category}" placeholder="nhap name">
+    </div>
+    <div class="form-group">
+        Image <input th:field="*{image}" placeholder="nhap name">
+    </div>
+    <div class="form-group">
+        <button type="submit">Save</button>
+    </div>
 </form>
-
-<a href="/cuisines/list">Quay lại danh sách</a>
 </body>
 </html>
+
+
+<!--<!DOCTYPE html>-->
+<!--<html xmlns:th="http://www.thymeleaf.org" lang="en">-->
+<!--<head>-->
+<!--    <meta charset="UTF-8">-->
+<!--    <title>Tạo món ăn mới</title>-->
+<!--    <style>-->
+<!--        body { font-family: Arial, sans-serif; margin: 20px; }-->
+<!--        label { display: block; margin: 10px 0 5px; }-->
+<!--        input[type="text"], input[type="file"] { width: 100%; max-width: 400px; padding: 8px; margin-bottom: 10px; }-->
+<!--        button { padding: 10px 20px; background-color: #007bff; color: white; border: none; border-radius: 4px; cursor: pointer; }-->
+<!--        button:hover { background-color: #0056b3; }-->
+<!--    </style>-->
+<!--</head>-->
+<!--<body>-->
+<!--<h1>Sử lý Create</h1>-->
+<!--<form th:action="@{/cuisine/save}" method="post" th:object="${cuisine}" enctype="multipart/form-data" novalidate="novalidate">-->
+<!--    <label for="name">Name:</label>-->
+<!--    <input type="text" id="name" name="name" th:field="*{name}" placeholder="Nhập tên món ăn" required>-->
+
+<!--    <label for="description">Description:</label>-->
+<!--    <input type="text" id="description" name="description" th:field="*{description}" placeholder="Nhập mô tả">-->
+
+<!--    <label for="category">Category:</label>-->
+<!--    <input type="text" id="category" name="category" th:field="*{category}" placeholder="Nhập danh mục">-->
+
+<!--    <label for="imageFile">Image:</label>-->
+<!--    <input type="file" id="imageFile" name="imageFile" accept="image/*">-->
+
+<!--    <button type="submit">Save</button>-->
+<!--</form>-->
+
+<!--<a href="/cuisines/list">Quay lại danh sách</a>-->
+<!--</body>-->
+<!--</html>-->

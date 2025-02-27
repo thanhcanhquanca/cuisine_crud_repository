@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<h1>Hien Thi Giao Dien</h1>
+
+<p>
+    <a th:href="@{/provinces/create}">
+        Add new province
+    </a>
+</p>
+<p>
+    <a th:href="@{/cuisine/list}">
+        Customers
+    </a>
+</p>
+<table border="1px">
+    <thead>
+    <tr>
+        <th>STT</th>
+        <th>Name</th>
+        <th>Update</th>
+    </tr>
+    </thead>
+    <tbody>
+    <tr th:each="p, pStatus : ${provinces}">
+        <td th:text="${pStatus.count}"></td>
+        <td><a th:href="@{/provinces/view-province/{id}(id=${p.getId()})}" th:text="${p.getName()}"></a></td>
+        <td><a th:href="@{/provinces/update/{id}(id=${p.getId()})}">update</a></td>
+    </tr>
+    </tbody>
+</table>
+</body>
+</html>

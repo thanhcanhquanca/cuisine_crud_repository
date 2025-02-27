@@ -21,6 +21,18 @@
     </style>
 </head>
 <body>
+
+<p>
+    <a th:href="@{/cuisine/create}">
+        Add new customer
+    </a>
+</p>
+<p>
+    <a th:href="@{/provinces}">
+        Provinces
+    </a>
+</p>
+
 <h1>Hiển thị danh sách</h1>
 
 <form th:action="@{/cuisine/search}" method="get">
@@ -60,12 +72,15 @@
         <td th:text="${a.name}"></td>
         <td th:text="${a.description}"></td>
         <td th:text="${a.category}"></td>
-        <td th:text="${a.image}"></td>
         <td>
-            <a th:href="@{/cuisines/edit(id=${a.id})}">Edit</a>
+            <img th:src="${a.image}" th:if="${a.image != null}" alt="Cuisine Image" />
+            <span th:if="${a.image == null}">No Image</span>
         </td>
         <td>
-            <a th:href="@{/cuisines/delete(id=${a.id})}">Delete</a>
+            <a th:href="@{/cuisine/edit(id=${a.id})}">Edit</a>
+        </td>
+        <td>
+            <a th:href="@{/cuisine/delete/{id}(id=${a.id})}">delete</a>
         </td>
     </tr>
     <tr th:if="${#lists.isEmpty(cuisines)}">
