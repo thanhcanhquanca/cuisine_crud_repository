@@ -59,6 +59,7 @@ public class CuisineService implements ICuisineService {
 
     @Override
     public Page<Cuisine> findAll(Pageable pageable) {
+
         return cuisineRepository.findAll(pageable);
     }
 

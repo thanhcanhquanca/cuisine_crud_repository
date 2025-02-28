@@ -12,7 +12,7 @@
     </a>
 </p>
 <div id="form">
-    <form th:action="@{/provinces/create}" th:object="${province}"
+    <form th:action="@{/provinces/save}" th:object="${province}"
           method="POST" novalidate="novalidate">
         <input type="hidden" th:field="*{id}"/>
         <div>

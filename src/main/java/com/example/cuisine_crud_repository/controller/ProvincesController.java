@@ -1,17 +1,17 @@
 package com.example.cuisine_crud_repository.controller;
 
+import com.example.cuisine_crud_repository.model.Cuisine;
 import com.example.cuisine_crud_repository.model.Province;
 import com.example.cuisine_crud_repository.services.ICuisineService;
 import com.example.cuisine_crud_repository.services.IProvinceService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
+
+import java.util.Optional;
 
 @Controller
 @RequestMapping("provinces")
@@ -41,5 +41,21 @@ public class ProvincesController {
         provinceService.save(province);
         redirectAttributes.addFlashAttribute("message", "Create new province successfully");
         return "redirect:/provinces/list";
+    }
+
+    @GetMapping("/delete/{id}")
+    public String deleteProvince(@PathVariable("id") Long id) {
+            Optional<Province> province = provinceService.findById(id);
+            if (province.isPresent()) {
+                provinceService.remove(id);
+                return "redirect:/provinces/list";
+            }
+            return "redirect:/provinces/error_404";
+    }
+
+    @GetMapping("/view")
+    public String viewCuisine( Model model) {
+
+        return "view";
     }
 }

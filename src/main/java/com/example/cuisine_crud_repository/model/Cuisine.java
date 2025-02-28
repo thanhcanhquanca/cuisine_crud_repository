@@ -27,6 +27,14 @@ public class Cuisine  {
         this.name = name;
     }
 
+    public Province getProvince() {
+        return province;
+    }
+
+    public void setProvince(Province province) {
+        this.province = province;
+    }
+
     public Long getId() {
         return id;
     }

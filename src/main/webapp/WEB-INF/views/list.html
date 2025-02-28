@@ -28,7 +28,7 @@
     </a>
 </p>
 <p>
-    <a th:href="@{/provinces}">
+    <a th:href="@{/provinces/list}">
         Provinces
     </a>
 </p>
@@ -64,6 +64,7 @@
         <th>Name</th>
         <th>Description</th>
         <th>Category</th>
+        <th>Khu Vuc</th>
         <th>Image</th>
         <th>Edit</th>
         <th>Delete</th>
@@ -72,16 +73,28 @@
         <td th:text="${a.name}"></td>
         <td th:text="${a.description}"></td>
         <td th:text="${a.category}"></td>
+        <td th:text="${a.province != null ? a.province.name : 'Không có khu vực'}"></td>
         <td>
             <img th:src="${a.image}" th:if="${a.image != null}" alt="Cuisine Image" />
             <span th:if="${a.image == null}">No Image</span>
         </td>
         <td>
-            <a th:href="@{/cuisine/edit(id=${a.id})}">Edit</a>
+            <button>
+                <a th:href="@{/cuisine/edit(id=${a.id})}">Edit</a>
+            </button>
         </td>
         <td>
-            <a th:href="@{/cuisine/delete/{id}(id=${a.id})}">delete</a>
+            <button>
+                <a th:href="@{/cuisine/delete/{id}(id=${a.id})}">delete</a>
+            </button>
         </td>
+
+        <td>
+            <button>
+                <a th:href="@{/cuisine/view/{id}(id=${a.id})}">View</a>
+            </button>
+        </td>
+
     </tr>
     <tr th:if="${#lists.isEmpty(cuisines)}">
         <td colspan="6">Không có dữ liệu</td>

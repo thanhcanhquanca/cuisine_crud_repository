@@ -1,7 +1,9 @@
 package com.example.cuisine_crud_repository.controller;
 
 import com.example.cuisine_crud_repository.model.Cuisine;
+import com.example.cuisine_crud_repository.model.Province;
 import com.example.cuisine_crud_repository.services.ICuisineService;
+import com.example.cuisine_crud_repository.services.IProvinceService;
 import com.example.cuisine_crud_repository.utility.PaginationUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
@@ -36,8 +38,16 @@ public class CuisineController {
     @Autowired
     private ICuisineService cuisineService;
 
+    @Autowired
+    private IProvinceService provinceService;
+
     @Value("${file_upload}")
     private String UPLOAD_DIR;
+
+    @ModelAttribute("provinces")
+    public Iterable<Province> listProvinces() {
+        return provinceService.findAll();
+    }
 
 //    @GetMapping("/list")
 //    public String listCuisines(Model model,
